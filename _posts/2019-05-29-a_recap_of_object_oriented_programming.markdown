@@ -17,7 +17,7 @@ This pretty much echoes what we’ve been taught so far on OOP. One memorable qu
 
 
 ### Object Relationships
-#### [The “Belongs To” Relationship ](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/object-relationships/intro-to-object-relationships)
+### **[The “Belongs To” Relationship ](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/object-relationships/intro-to-object-relationships)**
 
 In the lab above, we’ve used a Song class to illustrate the “belongs to” concept. What the lesson says is that songs (or song instances) can have multiple attributes, i.e. belong to these attributes (:title, :artist). In turn, many other song instances could belong to this same artist. So how do we model this dynamic? 
 
@@ -41,8 +41,8 @@ class Artist
   attr_accessor :name, :genre
 	
 	def initialize(name, genre)
-	  @name=name
-		@genre=genre
+	 @name=name
+	 @genre=genre
 	end
 	
 end
@@ -57,7 +57,9 @@ hotline_bling = Song.new("Hotline Bling")
 
 We then assign the artist instance to hotline_bling’s instance variable of @artist with the following:
 
-`  hotline_bling.artist = drake`
+``` 
+hotline_bling.artist = drake
+```
 
 
 As a result, the song now belongs to the artist instance of “drake”, and in turn “drake” has other attributes that we can call, for example: 
@@ -69,7 +71,7 @@ hotline_bling.artist.name => “Drake”
 
 
 
-#### [The "Has Many Relationship](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/object-relationships/has-many-object)
+### **[The "Has Many Relationship](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/object-relationships/has-many-object)**
 
 In the “belongs to” example above, each song instance belongs to an artist. The “has many” relationship is the inverse of this, i.e. each artist has many songs. Essentially what we want to achieve is this: 
 
@@ -101,31 +103,31 @@ end
 ```
 
 Over here we’re doing a few things:
-1. 
+
 ```
 @songs = []
 ```
 
  We have initialized the Song instance with an empty array represented by the instance variable of @songs.
 
-2. 
+
 ```
 song = Song.new(name, genre)
 @songs << song
 ```
 In #add_song_by_name method, we have created a new instance of the Song class called “song” which is initialized with a @name and @genre. We then add this new Song instance to the array of @songs.
 
-3. 
+
 ```
 song.artist = self
 ```
 We then assign the song’s @artist to our new instance of Artist (“self”) that we are creating in this code.    
 
-4. The result is that we will have an array (@songs) which consists of the song instances that we have created through the #add_song_by_name method, all of which have “self” assigned as its artist. In other words, our new Artist instance now has many songs and genres associated with it.
+The result is that we will have an array (@songs) which consists of the song instances that we have created through the #add_song_by_name method, all of which have “self” assigned as its artist. In other words, our new Artist instance now has many songs and genres associated with it.
 
 
 
-#### [Class Inheritance ](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/object-architecture/intro-to-inheritance)
+### **[Class Inheritance ](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/object-architecture/intro-to-inheritance)**
 ```
 class Child < Parent
 	
@@ -140,7 +142,7 @@ The above code will cause the Child class to inherit all methods and attributes 
 
 
 
-#### [Using ‘super’ to supercharge inheritance](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/object-architecture/super)
+### **[Using ‘super’ to supercharge inheritance](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/object-architecture/super)**
 
 ```
 class Student < User
@@ -154,7 +156,7 @@ Using ‘super’ allows us to inherit all functionality in the parent’s #log_
 
 
 
-#### [Keyword Argument ](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/metaprogramming/mass-assignment)
+### **[Keyword Argument ](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/metaprogramming/mass-assignment)**
 
 Before Keyword Argument: 
 ```
@@ -243,16 +245,20 @@ What this method does is take in a Song instance as the argument and assign its 
 This is why “@artist=artist” is important because once the artist instance is assigned to @artist within the Song class, when the #add_song method is called, the setter method of “song.artist=self” will not be called because song.artist is no longer ‘nil’. This then prevents an infinite loop from happening.
 
 ### Methods to Know: 
-#### The `send` method
+### The `send` method
 This is a form of metaprogramming which comes in handy when scraping data from websites that are ever-changing. 
 
 Basically: 
 
-`object.send(key=, value)`
+```
+object.send(key=, value)
+```
 
 is the same as
 
-`object.key = value`
+```
+object.key = value
+```
 
 As illustrated in the [Twitter Example](https://learn.co/tracks/online-software-engineering-structured/object-oriented-ruby/metaprogramming/mass-assignment-and-metaprogramming), this comes in handy when the objects we’re trying to scrape don’t stay constant and we don’t want to keep changing our code to accommodate the changing attributes that we’re trying to scrape. In essence, we’re trying to abstract away our class’ dependency on specific attributes. This metaprogramming method enables us to tell our class to accept some unspecified number and type of attributes and assign those accordingly within our class.
 
@@ -266,7 +272,7 @@ class User
 end
 ```
 
-#### The `tap` method
+### The `tap` method
 
 ```
 def create_by_name(name)
