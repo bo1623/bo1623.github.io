@@ -277,7 +277,7 @@ end
 ```
 def create_by_name(name)
    self.new.tap do |i|
-i.name = name
+   i.name = name
    end
 end
 ```
