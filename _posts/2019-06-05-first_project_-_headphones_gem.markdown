@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "First Project - Headphones Gem"
-date:       2019-06-05 10:37:12 +0000
+date:       2019-06-05 06:37:12 -0400
 permalink:  first_project_-_headphones_gem
 ---
 
@@ -18,14 +18,14 @@ My hope for this project is that it quickens the user's research process, ultima
 
 ## User Experience
 ### Introduction
-![Introduction](https://imgur.com/OPGQ3D6)
+![Introduction](https://i.imgur.com/OPGQ3D6.png)
 
 The CLI starts by displaying the list of headphones in the sequence it appears on cnet.com and subsequently gives the user 6 options, each representing a category to sort the headphones by. The programme is created such that the user can continue sorting by different categories until he/she enters "exit" to proceed to the next phase of the programme.
 
-![Sort by Design](https://imgur.com/p1yFiom)
+![Sort by Design](https://i.imgur.com/p1yFiom.png)
 
 ### Picking Specific Headphone
-![Picking Specific Headphone](https://imgur.com/c0nTpQ0)
+![Picking Specific Headphone](https://i.imgur.com/c0nTpQ0.png)
 
 Once "exit" is entered, the CLI then prompts the user to enter his/her headphone of interest to obtain further details. The number to select will be based on the most recently generated sorted list. 
 
@@ -34,11 +34,13 @@ Once a specific product is chosen, the user can then select to dive deeper into 
 ### Further Details
 Below are some screenshots on what is printed for the price comparison and summarized review respectively.  
 
-![Price Comparison](https://imgur.com/slabZRS) ![Summarized Review](https://imgur.com/kaupoBd)
+![Price Comparison](https://i.imgur.com/slabZRS.png) 
+
+![Summarized Review](https://i.imgur.com/kaupoBd.png)
 
 
 ### Option to Continue Browsing
-![Option to Continue Browsing](https://imgur.com/AvSzAz2)
+![Option to Continue Browsing](https://i.imgur.com/AvSzAz2.png)
 
 Lastly, before the CLI programme is terminated, it prompts the user whether they would like to continue browsing. If "y" is entered, the user can choose which point within the programme to return to - either to go back to the initial sorting stage or to backtrack to the stage offering the user to view more details on the most recent list of headphones. 
 
