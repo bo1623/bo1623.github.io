@@ -6,9 +6,9 @@ permalink:  sinatra_project_-_swimming_meet_registration_portal
 ---
 
 
-Safe to say, getting my second project up and running was significantly tougher than my first project on the CLI app. In particular, it was the use of multiple controllers, multiple models, interactions with the database, additional elements that web devleopment introduces (e.g. concept of sessions, mechanics of modelling user login/logout functions using bcrypt) that made this project more challenging but also that much more fulfilling. 
+Safe to say, getting my second project up and running was significantly tougher than my first project on the CLI app. In particular, it was the use of multiple controllers, multiple models, interactions with the database, additional elements that web development introduces (e.g. concept of sessions, mechanics of modelling user login/logout functions using bcrypt) that made this project more challenging but also that much more fulfilling. 
 
-Now for a little context on my project - I used to be a competitive swimmer for more than 10 years and attended many competitions during those times, so I thought it would be interesting to model how the organizers effiicently facilitated the registration process. Each competition had many teams, and each team had many swimmers belonging to those teams, and each swimmer signed up for multiple events (e.g. 100m Butterfly, 100m Freestyle, 100m Breastroke, etc.), each with their own distinct personal best timings. 
+Now for a little context on my project - I used to be a competitive swimmer for more than 10 years and attended many competitions during those times, so I thought it would be interesting to model how the organizers efficiently facilitated the registration process. Each competition had many teams, and each team had many swimmers belonging to those teams, and each swimmer signed up for multiple events (e.g. 100m Butterfly, 100m Freestyle, 100m Breaststroke, etc.), each with their own distinct personal best timings. 
 
 This should give you an idea of the classes involved in my project, which to be honest didn't occur immediately to me at first (I guess one of the many challenges programmers face is learning how to categorize real life objects and develop a skill for detecting and modeling these inter-object relationships). For clarity, the relationships I modeled were: 
 
@@ -123,4 +123,5 @@ There are other features that my web app has along the lines of the CRUD framewo
 * making relevant events appear only to the swimmer who are eligible (i.e. within the right age group and gender)
 2. Making options in my datalists compulsory
 3. Create a new feature for generating list of heats for each event 
+
 
