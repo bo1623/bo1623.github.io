@@ -151,7 +151,7 @@ This was a bit tricky given we only scratched the surface of OAuths in our labs 
 
 To my understanding, OAuth logins shouldn't normally require a password but given all user instances in my app require password attributes due to the has_secure_password macro, I had to require users logging in via Github to enter a password on a separate page: 
 
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/MUOGgHy"><a href="//imgur.com/a/MUOGgHy">Rails Project - Food App</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/MUOGgHy" data-context="false"><a href="https://i.imgur.com/9w2RZNY.mp4">Rails Project - Food App</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 To put the normal login and Github login features together, I created two helper methods: 
 
