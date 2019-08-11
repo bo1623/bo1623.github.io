@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Rails Project - The Food App"
-date:       2019-08-11 13:20:35 +0000
+date:       2019-08-11 09:20:35 -0400
 permalink:  rails_project_-_the_food_app
 ---
 
@@ -285,7 +285,7 @@ Helper methods:
 
 One additional feature I would like to add to my app is the ability for restaurant managers to track which of their dishes contribute the most to their overall revenue. Given each dish has a price, this should be quite doable. But given the project time constraint, you'll have to settle for this version for now. 
 
-That was a lenghty one, if you're still reading, thank you for staying with me till the end! 
+That was a lengthy one, if you're still reading, thank you for staying with me till the end! 
 
 
 
