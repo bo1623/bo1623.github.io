@@ -75,7 +75,7 @@ Lots of models - but what matters for this post are the first five models: User 
 ### Enabling a customer to specify the quantity of dishes to order and assigning those dishes to that customer's meal
 
 For context, I envisioned my order form to look like this, where the customer would be able to view all items on a restaurant's menu and then decide how much of a certain dish they wanted before submitting the form.
-![Order Form](https://imgur.com/a/MUOGgHy)
+![Order Form](https://i.imgur.com/i1hR4hK.png)
 
 The desired result was for the customer's meal to be created and saved to our database, the customer would then be able to see their final meal order before proceeding with their purchase and the dishes that had been ordered would also have this reflected in their database.  
 
@@ -151,7 +151,7 @@ This was a bit tricky given we only scratched the surface of OAuths in our labs 
 
 To my understanding, OAuth logins shouldn't normally require a password but given all user instances in my app require password attributes due to the has_secure_password macro, I had to require users logging in via Github to enter a password on a separate page: 
 
-![Github Login](https://i.imgur.com/9w2RZNY.gifv)
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/MUOGgHy"><a href="//imgur.com/a/MUOGgHy">Rails Project - Food App</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 To put the normal login and Github login features together, I created two helper methods: 
 
