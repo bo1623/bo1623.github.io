@@ -1,12 +1,13 @@
 ---
 layout: post
 title:      "Javascript - Tackling The Pokemon Teams Lab"
-date:       2019-08-31 15:49:28 +0000
+date:       2019-08-31 11:49:29 -0400
 permalink:  javascript_-_tackling_the_pokemon_teams_lab
 ---
 
 
-"Javascript is easy!", said no one ever. 
+***"Javascript is easy!", said no one ever. ***
+
 ### Asynchrony and using .then()
 
 In particular, wrapping my head around the concept of asynchrony proved to be a challenge. There were times where I felt like my code was completely fine but it wasn't being reflected in the output, especially if some part of the process depended on a fetch request. For instance, the pokemon lab involved adding event listeners for certain buttons but before that could happen, we needed to render the html for each trainer and their corresponding "add pokemon" button and "release" buttons through a fetch request. The thing about fetch requests is that they are asynchronous functions and Javascript works by placing them in a task queue first and calling all other synchronous functions before allowing the fetch request to complete. Therefore, if I wanted to add an event listener to a html element that would exist only after the fetch request was complete, I would have to employ the use of `.then()` which sort of ensures that a Promise is returned (basically a response indicating that the fetch was completed successfully) before calling the function. 
