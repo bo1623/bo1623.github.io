@@ -6,7 +6,7 @@ permalink:  javascript_-_tackling_the_pokemon_teams_lab
 ---
 
 
-***"Javascript is easy!", said no one ever. ***
+*"Javascript is easy!", said no one ever. *
 
 ### Asynchrony and using .then()
 
