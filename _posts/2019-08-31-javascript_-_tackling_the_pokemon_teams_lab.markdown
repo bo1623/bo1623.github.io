@@ -97,6 +97,6 @@ function postAddPokemon(id){
   .then(()=>fetchLastPokemon(id))
 ```
 
-In the code above, we are using `event.target` to identify if the element that was just clicked on has a className of "add", only if that holds true would we carry out our intended response from that particular click. We could do the same for the release buttons by specifying the condition ` if(event.target.className=='release')`. 
+In the code above, we are using `event.target` to identify if the element that was just clicked on has a className of "add", only if that holds true would we carry out our intended response from that particular click. We could do the same for the release buttons by specifying the condition `if(event.target.className=='release')`. 
 
 
