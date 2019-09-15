@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Rails & Javascript Project  - Trading App"
-date:       2019-09-15 17:26:45 +0000
+date:       2019-09-15 13:26:46 -0400
 permalink:  rails_and_javascript_project_-_trading_app
 ---
 
@@ -9,6 +9,7 @@ permalink:  rails_and_javascript_project_-_trading_app
 For my Rails & Javascript Project, I decided to create something relevant to my field of work - finance - and came up with the simplest of trading apps (although the process of coding it was far from simple). Before I delve into the code, here is a preview of what my app looks like: 
 
 ![pic1](https://i.imgur.com/XrZWSBq.png)
+
 ![pic2](https://i.imgur.com/vuvTsk3.png)
 
 Gotta say, I'm decently proud of what I've produced here and I hope it's not just personal bias arising from the many hours spent on creating this app. 
@@ -286,4 +287,6 @@ function createPieChart(array){ //array of position objects
 }
 ```
 
-And there you have it, a not-so brief overview of my Rails-Javascript project. Thanks for reading :)
+And there you have it, a not-so brief overview of my Rails-Javascript project. There's so much more functionality I have incorporated into this app that would take thousands more words to explain, so I'll just stop here and if you're interested in learning more about this app, feel free to visit my github [repository](https://github.com/bo1623/Javascript-Project-Stock-Trading-App).
+
+Thanks for reading :)
