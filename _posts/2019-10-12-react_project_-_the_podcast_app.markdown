@@ -62,7 +62,7 @@ In this post, my main objective is to explain how I built my app by taking advan
 3. Enable users to log in and save podcast episodes to their playlist and delete them
 
 ### Generating The Podcasts' Index Page
-First of all, credit where credit's due, producing this app would not have been possible without the help of [listennotes.com](https://www.listennotes.com/)), who offer podcast APIs for free with a very generous limit, so do check them out if you're interested in making use of their services. 
+First of all, credit where credit's due, producing this app would not have been possible without the help of [listennotes.com](https://www.listennotes.com/), who offer podcast APIs for free with a very generous limit, so do check them out if you're interested in producing a podcast-related app. 
 
 So let's have a look at this post's first piece of code, I guess it makes sense to start with my PodcastsContainer:
 
