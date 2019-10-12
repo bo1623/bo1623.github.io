@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "React Project - The Podcast App"
-date:       2019-10-12 15:28:26 +0000
+date:       2019-10-12 11:28:27 -0400
 permalink:  react_project_-_the_podcast_app
 ---
 
@@ -24,6 +24,8 @@ But as I started working on my final project, it all slowly came to me how Redux
 Now you might be thinking, to what purpose would I need these components and action creators? So let's dive into some of my app features:
 
 <blockquote class="imgur-embed-pub" lang="en" data-id="swWfcjc"><a href="//imgur.com/swWfcjc">View post on imgur.com</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+
+<blockquote class="imgur-embed-pub" lang="en" data-id="u5H4ckN"><a href="https://imgur.com/u5H4ckN">View post on imgur.com</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 [insert features here]
 
