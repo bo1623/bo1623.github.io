@@ -14,7 +14,7 @@ Then came along Redux.... and I was left thinking "Why are we even learning this
 
 Life seemed much simpler when it was just about creating a local state in a React component and passing down those attributes as props to the component's children.
 
-But as I started working on my final project, it all slowly came to me how Redux was making my life easier. Here are some stats - my app had: 
+But as I started working on my final project, I slowly realized how Redux was making my life easier. Here are some stats - my app had: 
 
 * 5 stateless components
 * 7 container components
@@ -53,6 +53,105 @@ If I had told myself at the beginning of the project that my app would have this
 
 ![Cheers](https://www.meme-arsenal.com/memes/5734ed7a96165f46fb5559ebfac03c50.jpg)
 
+
+## Behind The Scenes
+In this post, my main objective is to explain how I built my app by taking advantage of what React and Redux have to offer. For that, I will focus on three specific features of my app, namely how I: 
+
+1. Generated the podcasts index page 
+2. Made use of React Routers to toggle seamlessly between webpages 
+3. Enable users to log in and save podcast episodes to their playlist and delete them
+
+### Generating The Podcasts' Index Page
+First of all, credit where credit's due, producing this app would not have been possible without the help of [listennotes.com](https://www.listennotes.com/)), who offer podcast APIs for free with a very generous limit, so do check them out if you're interested in making use of their services. 
+
+So let's have a look at this post's first piece of code, I guess it makes sense to start with my PodcastsContainer:
+
+```
+import React,{Component} from 'react';
+import fetchPodcasts from '../actions/fetchPodcasts'
+import {connect} from 'react-redux'
+import Podcast from '../components/Podcast'
+import genre_ids from '../genre_ids'
+import PlaylistContainer from './PlaylistContainer'
+
+class PodcastsContainer extends Component{
+
+  componentDidMount(){
+    console.log(this.props)
+    this.props.clearEpisodes()
+    this.props.fetchPodcasts()
+  }
+
+  handleOnChange = (event) =>{
+    console.log('dropdown list is working')
+    const genreId=event.target.value
+    this.props.fetchPodcastsWithId(genreId)
+  }
+
+
+  handleOnSubmit = event => {
+    event.preventDefault()
+    console.log(this.state)
+  }
+
+  render(){
+    const {isLoggedIn} = this.props
+    const sorted_genres=genre_ids.sort((a, b) => (a.name > b.name) ? 1 : -1)
+    let podcast
+    if(!!this.props.podcasts.podcasts){ //if the podcasts have loaded onto the state successfully then only can we carry out the line below,
+      //otherwise an error will be thrown saying map cannot be called on undefined
+      podcast=this.props.podcasts.podcasts.map(podcast=><Podcast podcast={podcast}/>)
+    }
+    return (
+      <div>
+        <div className="genre-search-bar">
+          <label>Filter by genre: </label>
+          <select id="genre-search" onChange={this.handleOnChange}>
+            <option select="selected"></option>
+            {sorted_genres.map(genre=><option value={genre.id}>{genre.name}</option>)}
+          </select>
+        </div>
+        <div className='podcasts-container'>
+          <div className='searched-podcasts'>
+              {podcast}
+          </div>
+          <div className='playlist-container'>
+            {isLoggedIn ? (
+              <div>
+                <div classname='title-container'>
+                  <h1>Playlist Container</h1>
+                </div>
+                <div className='playlist-episodes'>
+                  <PlaylistContainer />
+                </div>
+              </div>
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+}
+
+const mapStateToProps = state => {
+  return {
+    podcasts:state.podcasts,
+    isLoggedIn: state.user.isLoggedIn
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchPodcasts: () => dispatch(fetchPodcasts()),
+  fetchPodcastsWithId: id => dispatch(fetchPodcasts(id)),
+  clearEpisodes: () => dispatch({type: "CLEAR_EPISODES"})
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(PodcastsContainer)
+
+```
 
 
 
