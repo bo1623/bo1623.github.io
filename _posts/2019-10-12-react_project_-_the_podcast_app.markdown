@@ -24,7 +24,7 @@ But as I started working on my final project, I slowly realized how Redux was ma
 Now you might be thinking, to what purpose would I need these components and action creators? So let's dive into some of my app features:
 
 
-Let's start off with my homepage. Over here I've included a short desciption of the app's features and included a "Listen Now" button right below it. This button enables the user to randomly generate a podcast episode by sending a GET fetch request to the API provider ([listennotes.com](https://www.listennotes.com/)) , the returned podcast JSON is then used to update our redux state and render this podcast episode on the DOM
+Let's start off with my homepage. Over here I've included a short description of the app's features and included a "Listen Now" button right below it. This button enables the user to randomly generate a podcast episode by sending a GET fetch request to the API provider ([listennotes.com](https://www.listennotes.com/)) , the returned podcast JSON is then used to update our redux state and render this podcast episode on the DOM
 
 <blockquote class="imgur-embed-pub" lang="en" data-id="zl97ElX"><a href="//imgur.com/zl97ElX">View post on imgur.com</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
@@ -55,11 +55,10 @@ If I had told myself at the beginning of the project that my app would have this
 
 
 ## Behind The Scenes
-In this post, my main objective is to explain how I built my app by taking advantage of what React and Redux have to offer. For that, I will focus on three specific features of my app, namely how I: 
+In this post, my main objective is to explain how I built my app by illustrating Redux flow. For that, I will focus on two specific features of my app, namely how I: 
 
 1. Generated the podcasts index page 
 2. Made use of React Routers to toggle seamlessly between webpages 
-3. Enable users to log in and save podcast episodes to their playlist and delete them
 
 ### Generating The Podcasts' Index Page
 First of all, credit where credit's due, producing this app would not have been possible without the help of [listennotes.com](https://www.listennotes.com/), who offer podcast APIs for free with a very generous limit, so do check them out if you're interested in producing a podcast-related app. 
@@ -77,13 +76,10 @@ import PlaylistContainer from './PlaylistContainer'
 class PodcastsContainer extends Component{
 
   componentDidMount(){
-    console.log(this.props)
-    this.props.clearEpisodes()
     this.props.fetchPodcasts()
   }
 
   handleOnChange = (event) =>{
-    console.log('dropdown list is working')
     const genreId=event.target.value
     this.props.fetchPodcastsWithId(genreId)
   }
@@ -146,13 +142,256 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   fetchPodcasts: () => dispatch(fetchPodcasts()),
   fetchPodcastsWithId: id => dispatch(fetchPodcasts(id)),
-  clearEpisodes: () => dispatch({type: "CLEAR_EPISODES"})
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(PodcastsContainer)
 
 ```
 
+Starting from the top, we have the `componentDidMount()` function that fetches the list of podcasts to be included in the container. This makes use of the dispatch function `fetchPodcasts()` which we can find in our `mapDispatchToProps` at the bottom of the code. This function dispatches the `fetchPodcasts()` action creator so that the JSON that is returned from our fetch request is dispatched to our podcasts' Redux state. Let's take a look at what this action creator looks like: 
+
+```
+const fetchPodcasts = (id) => {
+  let url
+  if(!!id){ 
+    url=`https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=${id}`
+  }else{ //on first load when no id is passed
+    url='https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=93'
+  }
+  return dispatch => {
+    fetch(url,{
+      method: 'GET',
+      headers: {
+        'X-ListenAPI-Key':'<My API Key>'
+      }
+    }).then(resp=>resp.json())
+  .then(json=>dispatch({type:"ADD_PODCAST", podcasts: json.podcasts}))
+  }
+}
+
+export default fetchPodcasts;
+```
+
+The `fetchPodcasts` action creator is designed to take in a genre_id as an argument, but if the podcasts' index page is being rendered for the first time (i.e. when the user is navigating to the podcasts' index page from another page), then no id would be passed, in which case the code sets the url to https://listen-api.listennotes.com/api/v2/best_podcasts?genre_id=93 that assumes the genre_id is 93 (for business). Once the url is set, the code sends a GET fetch request to the url and the resulting json is then dispatched to the Redux state as part of an action with the type of "ADD_PODCAST". 
+
+At this point, it would be useful to know what `json.podcasts` look like, so here it is: 
+
+[insert podcasts object here]
+
+Naturally, this brings us to our `podcastsReducer` and see how the dispatched action is translated into an updated Redux state. 
+
+```
+import {combineReducers} from 'redux';
+
+const rootReducer=combineReducers({
+  podcasts: podcastsReducer,
+  playlist: playlistReducer,
+  episodes: episodesReducer,
+  podcast: podcastReducer,
+  user: userReducer,
+  reviews: reviewsReducer,
+  button: buttonReducer,
+  notice: noticeReducer,
+  randomEpisode: episodeReducer
+})
+
+function podcastsReducer(state=[],action){ //renders list of podcasts
+
+  switch(action.type){
+    case "ADD_PODCAST":
+      const podcasts = action.podcasts.map(podcast => {
+        return {
+          podcast_id: podcast.id,
+          title: podcast.title,
+          thumbnail: podcast.thumbnail,
+          image: podcast.image,
+          total_episodes: podcast.total_episodes,
+          latest_publication: podcast.latest_pub_date_ms,
+          description: podcast.description
+        }
+      })
+      return {
+        podcasts
+      }
+
+    default:
+      return state
+  }
+}
+```
+
+
+Quick sidetrack - in the code block above, I've included how I used the combineReducers function to group all my reducers into one `rootReducer`. In this case, all I would have to do to create my store is this: 
+
+```
+*//index.js*
+
+const store = createStore(rootReducer)
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+```
+
+Now, let's analyse what's going on in the `podcastsReducer`. In our `fetchPodcasts` function, we dispatched an action with the type of "ADD_PODCAST", which then triggers the `podcastsReducer` to map a list of customized podcast objects (the returned JSON contained lots of information that I wouldn't need so creating these customized objects serves to simplify things further down the line). The 'podcasts' Redux state is then updated with the returned list of podcasts.
+
+### How Reducers Work
+Another sidetrack - whenever we create a reducer, Redux takes the first term of our reducer function and uses that to create a new Redux state attribute. E.g. When I created the podcastsReducer, the new key value pair that was added to our Redux state is: 
+
+```
+podcasts : []
+```
+
+Whatever is returned within our podcastsReducer then appears within the array of this `podcasts` attribute. 
+
+Now back to the main point. Once the state is updated with this list of podcasts, our PodcastsContainer would recognize this change through the `mapStateToProps` referencing the state's `podcasts` attribute, a re-render of this container is then triggered. When this happens, the following assignment is carried out: 
+
+```
+    let podcast
+    if(!!this.props.podcasts.podcasts){ //if the podcasts have loaded onto the state successfully then only can we carry out the line below,
+      //otherwise an error will be thrown saying map cannot be called on undefined
+      podcast=this.props.podcasts.podcasts.map(podcast=><Podcast podcast={podcast}/>)
+    }
+```
+
+Once the PodcastsContainer's props have been updated with these podcasts, `this.props.podcasts.podcasts` becomes true, and a list of `Podcast` components would be rendered on the screen, each with a podcast object being passed down as props. That's it for the first segment of this post! 
+
+###  React Routers
+Routers were a bit tricky to grasp, and anyone who has figured out how to use them should be proud of themselves. Basically, we have to start off by defining our routes in App.js :
+
+```
+import React,{Component} from 'react';
+import './App.css';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
+import NavBar from './containers/NavBar';
+import PodcastsContainer from './containers/PodcastsContainer'
+import PodcastContainer from './containers/PodcastContainer'
+import HomeContainer from './containers/HomeContainer'
+
+class App extends Component {
+
+  render(){
+    return (
+      <Router>
+        <div>
+          <NavBar />
+          <Route exact path='/' component={HomeContainer} />
+          <Route exact path='/podcasts' component={PodcastsContainer} />
+          <Route path='/podcasts/:podcastid' component={PodcastContainer} />
+        </div>
+      </Router>
+    )
+  }
+}
+
+export default App;
+```
+
+As you can see above, I defined my root route as '/', which renders the `HomeContainer`. The '/podcasts' path renders our podcast index page with the list of podcasts filtered by genre. Lastly, '/podcasts/:podcastid' renders our `PodcastContainer` which is houses our podcast show page. 
+
+I then created a NavBar component to display all these links via `NavLink` which is imported from `react-router-dom`:
+
+```
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import Login from '../components/Login'
+
+const NavBar = () => {
+  return (
+    <div className='navbar'>
+      <span className="logo">THE PODCAST APP</span>
+      <NavLink  to='/'>Home</NavLink>
+      <NavLink  to='/podcasts'>Podcasts</NavLink>
+      <Login />
+    </div>
+  );
+};
+
+export default NavBar;
+```
+
+Getting the homepage link and podcasts index page link to work were relatively simple as I wasn't constructing new links based on let's say, a genre's id. But I had to create a new route for each podcast show page I wished to render, and so had to make use of nested routes. 
+
+```
+import React,{Component} from 'react';
+import { Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
+import {connect} from 'react-redux'
+import fetchPodcast from '../actions/fetchPodcast'
+
+
+class Podcast extends Component{
+
+  render(){
+    const {podcast} = this.props
+		
+    return(
+        <div className='podcast'>
+
+          <div className='podcast-details' >
+            <Link
+              key={podcast.podcast_id}
+              to={`/podcasts/${podcast.podcast_id}`}
+            >{podcast.title}</Link>
+            <br></br>
+            <span>Total Episodes: {podcast.total_episodes}</span>
+          </div>
+          <br></br>
+        </div>
+    )
+  }
+}
+
+```
+
+Each of these nested routes were declared via the `<Link>` component within the podcast show component. Recall from earlier, in the podcasts index page, we're creating a list of podcast channels everytime we access our "Podcasts" link, and when that happens, these new nested routes are being created in each podcast show component. And when our router detects a route with the following format `/podcasts/:podcastid`, it renders the podcast show container. 
+
+## Bonus
+Before I sign off on my last blog post for this programme, here are a couple of useful tips I picked up while building this app. 
+
+### Using `compose` to hook middleware with our Devtools extension
+As mentioned in the lectures, Redux Thunk is necessary in order for us to make dispatch calls within our action creators (instead of just having the action creators return plain JavaScript objects) and make them dependent on Promises from our fetch requests. To use Redux Thunk, all we have to do is include the following in index.js:
+
+```
+const store = createStore(rootReducer, applyMiddleware(thunk));
+```
+
+But at the same time, I wanted to use my Chrome Devtools, which requires the following: 
+
+```
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
+```
+
+So how could I incorporate both these features within my `createStore` function? That's where compose comes in and saves the day: 
+
+```
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
+```
+
+### Working with Heroku
+Getting both my Rails backend and React frontend deployed to Heroku was a nightmare. It is extremely important that you follow the exact instructions on these two blog posts:
+
+1. https://medium.com/@kasiarosenb/deploying-your-rails-app-on-heroku-a2096dc40aac
+2. https://dev.to/smithmanny/deploy-your-react-app-to-heroku-2b6f
+
+And be aware of what sort of packages you include in your package.json file as any unnecessary dependencies could mess up your whole deployment. 
+
+After some much needed help from my instructor (Chris Metzger), I finally got both my backend and frontend deployed on Heroku. But when I tried to send a fetch request from my Heroku frontend to my Heroku backend, an Internal Server Error 500 was firing. The good news was that my Heroku fetch route was being recognized (i.e. I wasn't getting a 404 error), but the bad news was that the error message didn't give me much to work on. 
+
+Thankfully, Chris stepped in again and asked me to run `heroku logs -t` on my terminal within my backend directory. This enabled me to view what was happening on my Heroku app as commands were being fired. Eventually, I found that even though I was pushing my commits to Heroku, the Heroku database had not been updated, and so was preventing data from being saved to the database due to forbidden attributes errors. Therefore, I had to delete the existing database on Heroku and run `heroku run rake db:migrate` again (instructions can be found [here](https://gist.github.com/zulhfreelancer/ea140d8ef9292fa9165e). Everything worked perfectly after that. 
 
 
 
