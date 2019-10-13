@@ -384,8 +384,8 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
 ### Working with Heroku
 Getting both my Rails backend and React frontend deployed to Heroku was a nightmare. It is extremely important that you follow the exact instructions on these two blog posts:
 
-1. https://medium.com/@kasiarosenb/deploying-your-rails-app-on-heroku-a2096dc40aac
-2. https://dev.to/smithmanny/deploy-your-react-app-to-heroku-2b6f
+1. [https://medium.com/@kasiarosenb/deploying-your-rails-app-on-heroku-a2096dc40aac](https://medium.com/@kasiarosenb/deploying-your-rails-app-on-heroku-a2096dc40aac)
+2. [https://dev.to/smithmanny/deploy-your-react-app-to-heroku-2b6f](https://dev.to/smithmanny/deploy-your-react-app-to-heroku-2b6f)
 
 And be aware of what sort of packages you include in your package.json file as any unnecessary dependencies could mess up your whole deployment. 
 
