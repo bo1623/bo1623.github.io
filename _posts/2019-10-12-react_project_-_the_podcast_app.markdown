@@ -176,7 +176,7 @@ The `fetchPodcasts` action creator is designed to take in a genre_id as an argum
 
 At this point, it would be useful to know what `json.podcasts` look like, so here it is: 
 
-[insert podcasts object here]
+![JSON.podcasts](https://i.imgur.com/Bz9mYxP.png)
 
 Naturally, this brings us to our `podcastsReducer` and see how the dispatched action is translated into an updated Redux state. 
 
