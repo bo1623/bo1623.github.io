@@ -60,6 +60,7 @@ In this post, my main objective is to explain how I built my app by illustrating
 1. Generated the podcasts index page 
 2. Made use of React Routers to toggle seamlessly between webpages 
 
+
 ### Generating The Podcasts' Index Page
 First of all, credit where credit's due, producing this app would not have been possible without the help of [listennotes.com](https://www.listennotes.com/), who offer podcast APIs for free with a very generous limit, so do check them out if you're interested in producing a podcast-related app. 
 
@@ -238,6 +239,7 @@ ReactDOM.render(
 
 Now, let's analyse what's going on in the `podcastsReducer`. In our `fetchPodcasts` function, we dispatched an action with the type of "ADD_PODCAST", which then triggers the `podcastsReducer` to map a list of customized podcast objects (the returned JSON contained lots of information that I wouldn't need so creating these customized objects serves to simplify things further down the line). The 'podcasts' Redux state is then updated with the returned list of podcasts.
 
+
 ### How Reducers Work
 Another sidetrack - whenever we create a reducer, Redux takes the first term of our reducer function and uses that to create a new Redux state attribute. E.g. When I created the podcastsReducer, the new key value pair that was added to our Redux state is: 
 
@@ -258,6 +260,7 @@ Now back to the main point. Once the state is updated with this list of podcasts
 ```
 
 Once the PodcastsContainer's props have been updated with these podcasts, `this.props.podcasts.podcasts` becomes true, and a list of `Podcast` components would be rendered on the screen, each with a podcast object being passed down as props. That's it for the first segment of this post! 
+
 
 ###  React Routers
 Routers were a bit tricky to grasp, and anyone who has figured out how to use them should be proud of themselves. Basically, we have to start off by defining our routes in App.js :
@@ -355,8 +358,10 @@ class Podcast extends Component{
 
 Each of these nested routes were declared via the `<Link>` component within the podcast show component. Recall from earlier, in the podcasts index page, we're creating a list of podcast channels everytime we access our "Podcasts" link, and when that happens, these new nested routes are being created in each podcast show component. And when our router detects a route with the following format `/podcasts/:podcastid`, it renders the podcast show container. 
 
+
 ## Bonus
 Before I sign off on my last blog post for this programme, here are a couple of useful tips I picked up while building this app. 
+
 
 ### Using `compose` to hook middleware with our Devtools extension
 As mentioned in the lectures, Redux Thunk is necessary in order for us to make dispatch calls within our action creators (instead of just having the action creators return plain JavaScript objects) and make them dependent on Promises from our fetch requests. To use Redux Thunk, all we have to do is include the following in index.js:
@@ -374,9 +379,11 @@ const store = createStore(
 )
 ```
 
-So how could I incorporate both these features within my `createStore` function? That's where compose comes in and saves the day: 
+So how could I incorporate both these features within my `createStore` function? That's where `compose` comes in and saves the day: 
 
 ```
+import {createStore, applyMiddleware,compose} from 'redux'
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
 ```
@@ -391,7 +398,7 @@ And be aware of what sort of packages you include in your package.json file as a
 
 After some much needed help from my instructor (Chris Metzger), I finally got both my backend and frontend deployed on Heroku. But when I tried to send a fetch request from my Heroku frontend to my Heroku backend, an Internal Server Error 500 was firing. The good news was that my Heroku fetch route was being recognized (i.e. I wasn't getting a 404 error), but the bad news was that the error message didn't give me much to work on. 
 
-Thankfully, Chris stepped in again and asked me to run `heroku logs -t` on my terminal within my backend directory. This enabled me to view what was happening on my Heroku app as commands were being fired. Eventually, I found that even though I was pushing my commits to Heroku, the Heroku database had not been updated, and so was preventing data from being saved to the database due to forbidden attributes errors. Therefore, I had to delete the existing database on Heroku and run `heroku run rake db:migrate` again (instructions can be found [here](https://gist.github.com/zulhfreelancer/ea140d8ef9292fa9165e). Everything worked perfectly after that. 
+Thankfully, Chris stepped in again and asked me to run `heroku logs -t` on my terminal within my backend directory. This enabled me to view what was happening on my Heroku app as commands were being fired. Eventually, I found that even though I was pushing my commits to Heroku, the Heroku database had not been updated, and so was preventing data from being saved to the database due to forbidden attributes errors. Therefore, I had to delete the existing database on Heroku and run `heroku run rake db:migrate` again (instructions can be found [here](https://gist.github.com/zulhfreelancer/ea140d8ef9292fa9165e)). Everything worked perfectly after that. 
 
 
 
